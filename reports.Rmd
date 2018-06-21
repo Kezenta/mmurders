@@ -1,0 +1,59 @@
+---
+title: "USA Gun report 2010"
+author: "Kaycee"
+date: "21 June 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+This is a report on the number of murders in usa in 2010 by guns. data obtained at:
+
+
+I will use this library in analysis of my data:
+
+```{r loading-libs, message=FALSE}
+library(tidyverse)
+```
+
+## and load the data I've already wrangled
+
+
+```{r}
+load("rda/murders.rda")
+```
+
+This is a scatterplot of the US gun murder rate and the code used to generate it
+```{r murder-rate-by-state-and-region}
+library(ggthemes)
+library(ggrepel)
+r<-murders %>% 
+  summarise(rate=sum(total)/sum(population)*10^6) %>% .$rate
+murders %>% ggplot(aes(population/10^6,total,label=abb))+
+  geom_point(aes(col=region),size=3)+
+  geom_abline(intercept = log10(r),lty=1,col="brown")+
+  geom_text_repel()+
+  scale_x_log10()+
+  scale_y_log10()+
+  ggtitle("USA Murder rate in 2010")+
+  xlab("Population in millions(log scale)")+
+  ylab("Total number of mrders(log scale)")+
+  scale_color_discrete(name="Region")+
+  theme_economist()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
